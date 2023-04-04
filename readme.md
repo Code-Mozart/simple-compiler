@@ -34,12 +34,23 @@ my_variable : 42
 my_function(42)
 
 // Function with return values
-int_divide(float dividend, float divisor) -> int quotient, int remainder : {
+int_divide : (float dividend, float divisor) -> int quotient, int remainder {
     return dividend.int / divisor.int, dividend.int % divisor.int
 }
 quotient, remainder = int_divide(10.0, 3.0)
 
-// note that the return value names are optional and are only used for self-documentation
+// alternatively return local variables
+int_divide : (float dividend, float divisor) -> int quotient, int remainder {
+    quotient : dividend.int / divisor.int
+    remainder : dividend.int % divisor.int
+}
+
+// Single-expression functions
+single_expression_function : { 42 }
+with_argument : (int a) -> int { a + 42 }
+
+// Return value inference
+some_function : (int a) -> { a + 42 }
 
 // If statement
 if (quotient - remainder > 0 and quotient.positive?) {
@@ -86,4 +97,24 @@ matrix4 my_4x4_matrix
 ```
 
 To be a bit more precise about the language:
-It is currently planned to be an **imperative/procedural/functional** programming language that is **statically typed** and **compiled**.
+It is currently planned to be an **imperative/procedural/functional** programming language that is **statically typed** and **compiled**. It currently mostly targets low level programming.
+
+## Ideas
+
+- The programming language could be some kind of a modern language for embedded programming without having to deal with our good old C.
+- On the other hand it could be an interpreted high level language similar to Ruby.
+- Out-of-the-box support multithreading and concurrency.
+- Lots of build-in functions and data structures as well as a comprehensive standard library, especially for math and graphics.
+- With this it might be a nice language for game development as well? Idk.
+
+## About the project and its current state
+
+This project is currently in a very early stage. It is not usable yet. It will be developed mostly for fun and to learn more about compilers and programming languages and may be canceled at any time.
+
+## License
+
+This project is not licensed meaning that no one may use this code. It is only published for anyone interested. If you have any questions or suggestions about the project or its licensing, feel free to contact me.
+
+## Contributing
+
+If you want to contribute to this project, feel free to open an issue or a pull request.
