@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require_relative '../src/autoload'
+Simplec::CLI.start(ARGV)
