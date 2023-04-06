@@ -18,7 +18,7 @@ Files in the Simplec language have the extension `.sc`. Its planned features are
 comment }/
 
 // Function definition
-main : {
+symbol main : {
     ...
 }
 

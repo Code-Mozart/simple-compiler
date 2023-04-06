@@ -1,0 +1,21 @@
+block:
+  id: 1
+  file: 'example1.sc'
+  line: 1
+  column: 1
+  parameters: [ ]
+  body:
+    - call:
+        id: 2
+        file: 'example1.sc'
+        line: 1
+        column: 1
+        identifier: 'say'
+        definition: extern
+        arguments:
+          - string:
+              id: 3
+              file: 'example1.sc'
+              line: 1
+              column: 5
+              value: 'Hello simplec'
