@@ -1,0 +1,24 @@
+- id: 1
+  file: 'example1.sc'
+  line: 1
+  column: 1
+  type: identifier
+  value: 'say'
+- id: 2
+  file: 'example1.sc'
+  line: 1
+  column: 4
+  type: left_parenthesis
+  value: '('
+- id: 3
+  file: 'example1.sc'
+  line: 1
+  column: 5
+  type: string
+  value: 'Hello simplec'
+- id: 4
+  file: 'example1.sc'
+  line: 1
+  column: 20
+  type: right_parenthesis
+  value: ')'
