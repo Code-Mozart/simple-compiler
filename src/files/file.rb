@@ -11,8 +11,20 @@ module Simplec
 
     def loaded? = !@content.nil?
 
+    def filename
+      ::File.basename @path, '.*'
+    end
+
     def content
-      @content ||= File.read @path
+      @content ||= ::File.read @path
+    end
+
+    def content=(content)
+      @content = content
+    end
+
+    def write
+      ::File.write @path, @content
     end
   end
 end

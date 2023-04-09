@@ -2,12 +2,42 @@
 
 module Simplec
   class Compiler
-    def initialize(file)
+    def initialize(file:, target: :vmcode, **options)
       @file = file
+      @target = target
+      @output_tokens = options[:output_tokens]
+      @output_ast = options[:output_ast]
     end
 
     def compile
-      raise NotImplementedError
+      create_pipeline
+      @pipeline.run
+    end
+
+    private
+
+    def create_pipeline
+      @pipeline = Simplec::Compiler::Pipeline.new(@file)
+
+      @pipeline << Simplec::Compiler::Lexer.new
+      if @target == :tokens
+        @pipeline << Simplec::Backends::TokenFormatter.new
+        return
+      end
+
+      @pipeline << Simplec::Compiler::Parser.new
+      @pipeline << Simplec::Compiler::Solver.new
+      if @target == :ast
+        @pipeline << Simplec::Backends::ASTFormatter.new
+        return
+      end
+
+      case @target
+      when :vmcode
+        @pipeline << Simplec::Backends::VMCodeGenerator.new
+      when :c
+        @pipeline << Simplec::Backends::CCodeGenerator.new
+      end
     end
   end
 end
