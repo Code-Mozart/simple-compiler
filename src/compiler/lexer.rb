@@ -12,6 +12,7 @@ module Simplec
       def run(source_code)
         @source_code = source_code
         tokenize
+        @tokens
       end
 
       private
@@ -21,11 +22,10 @@ module Simplec
         @column = 1
         @cursor = 0
 
-        until @cursor < @source_code.length
+        until eof?
           case current_char
           when /\s/
             handle_whitespace
-            next
           when /[a-zA-Z_<>:+\-\/*\\^~|$&%§#'=?!]/
             handle_identifier
           when /[0-9]/
@@ -34,35 +34,8 @@ module Simplec
             handle_string
           when /[(){}\[\].,;]/
             handle_punctuation
-            next
           else
             raise CompilationError.new :unknown_character, @file, @line, @column, current_char
-          end
-
-          # identifier-, number- and string-handlers must have encountered a terminating character so we
-          # need to go back one character and let the next iteration handle it. This is sometimes skipped with
-          # the next keyword.
-          @cursor -= 1
-          @column -= 1
-
-          # check for line comments
-          if char == '/' && source_code[i + 1] == '/'
-            comment = ''
-            column += 2
-            while source_code[column] != "
-
-            "
-              comment += source_code[column]
-              column += 1
-            end
-            column += 1
-            @tokens << Token.new(:line_comment, @file, line, column, :line_comment, comment)
-            next
-          end
-
-          # check for block comments
-          if char == '/' && source_code[i + 1] == '{'
-            comment = ''
           end
         end
       end
@@ -74,13 +47,15 @@ module Simplec
         else
           @column += 1
         end
+
+        @cursor += 1
       end
 
       def handle_identifier
         identifier = @char
         @column += 1
         @cursor += 1
-        while @source_code[@cursor] =~ /[a-zA-Z0-9_<>:+\-\/*\\^~|$&%§#'=?!]/
+        while current_char =~ /[a-zA-Z0-9_<>:+\-\/*\\^~|$&%§#'=?!]/
           if previous_char_was? '/'
             if current_char == '/'
               @cursor += 1
@@ -135,19 +110,24 @@ module Simplec
       end
 
       def handle_string
-        string = @cursor
+        string = current_char
         @column += 1
         @cursor += 1
 
         until eof? do
           string += current_char
-          @column += 1
-          @cursor += 1
 
           # TODO: handle escape sequences
 
-          break if current_char == '"' and !previous_char_was? '\\'
+          break if current_char == '"' and not previous_char_was? '\\'
+
+          @column += 1
+          @cursor += 1
         end
+
+        # skip the closing quote
+        @column += 1
+        @cursor += 1
 
         add_token :string, string[1...-1], string
       end
@@ -175,6 +155,9 @@ module Simplec
         else
           raise CompilationError.new(:unknown_punctuation, @file, @line, @column, current_char)
         end
+
+        @column += 1
+        @cursor += 1
       end
 
       def handle_line_comment
@@ -208,6 +191,8 @@ module Simplec
 
         add_token :block_comment, comment, "/{#{comment}}/"
       end
+
+      private
 
       def eof?
         @cursor >= @source_code.length

@@ -4,18 +4,18 @@ require 'yaml'
 
 module Simplec
   module Backends
-    class TokenFormatter
+    class ASTFormatter
       def initialize
       end
 
       def refresh_parameters
         @output_format = :yml
-        @output_file_path = "#{Simplec.root}/#{@file.filename}.tokens.#{@output_format}"
+        @output_file_path = "#{Simplec.root}/#{@file.filename}.ast.#{@output_format}"
       end
 
-      def run(tokens)
+      def run(ast_root)
         output_file = File.new @output_file_path
-        output_file.content = Helpers.stringify_keys(tokens.map(&:to_h)).to_yaml
+        output_file.content = Helpers.stringify_keys(ast_root.to_h).to_yaml
         output_file.write
       end
     end

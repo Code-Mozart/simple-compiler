@@ -25,7 +25,12 @@ module Simplec
         say "Source code:", :blue
         say src_file.content
 
-        Simplec::Compiler.new(file: src_file, target: options[:target].to_sym).compile
+        Simplec::Compiler.new(
+          file: src_file,
+          target: options[:target].to_sym,
+          output_tokens: options[:output_tokens],
+          output_ast: options[:output_ast]
+        ).compile
       end
     end
 

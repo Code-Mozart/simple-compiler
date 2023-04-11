@@ -20,14 +20,14 @@ module Simplec
       @pipeline = Simplec::Compiler::Pipeline.new(@file)
 
       @pipeline << Simplec::Compiler::Lexer.new
-      if @target == :tokens
+      if @target == :tokens or @output_tokens
         @pipeline << Simplec::Backends::TokenFormatter.new
         return
       end
 
       @pipeline << Simplec::Compiler::Parser.new
       @pipeline << Simplec::Compiler::Solver.new
-      if @target == :ast
+      if @target == :ast or @output_ast
         @pipeline << Simplec::Backends::ASTFormatter.new
         return
       end

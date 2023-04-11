@@ -19,8 +19,16 @@ module Simplec
   class Compiler
     autoload :Pipeline, "#{Simplec.root}/src/compiler/pipeline"
     autoload :Lexer, "#{Simplec.root}/src/compiler/lexer"
+    autoload :Token, "#{Simplec.root}/src/compiler/token"
     autoload :Parser, "#{Simplec.root}/src/compiler/parser"
     autoload :Solver, "#{Simplec.root}/src/compiler/solver"
+  end
+
+  module AST
+    autoload :Node, "#{Simplec.root}/src/ast/node"
+    autoload :Block, "#{Simplec.root}/src/ast/block"
+    autoload :Call, "#{Simplec.root}/src/ast/call"
+    autoload :String, "#{Simplec.root}/src/ast/string"
   end
 
   module Backends
@@ -29,4 +37,6 @@ module Simplec
     autoload :VMCodeGenerator, "#{Simplec.root}/src/backends/vmcode_generator"
     autoload :CCodeGenerator, "#{Simplec.root}/src/backends/ccode_generator"
   end
+
+  autoload :Helpers, "#{Simplec.root}/src/helpers"
 end
