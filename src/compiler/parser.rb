@@ -18,7 +18,7 @@ module Simplec
       private
 
       def parse
-        ast_root = AST::Block.new 0, @file, 0, 0
+        ast_root = AST::Block.new 0, @file, 1, 1
         ast_root.symbol_table = AST::SymbolTable.new @symbol_tables_count, ast_root
         @symbol_tables_count = 1
         @node_count = 1

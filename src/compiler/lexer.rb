@@ -87,6 +87,7 @@ module Simplec
 
         has_period = false
         number_string = @char
+        first_char_column = @column
         @column += 1
         @cursor += 1
 
@@ -103,14 +104,15 @@ module Simplec
         number = number_string.gsub('_', '')
 
         if has_period
-          add_token :float, number.to_f, number_string
+          add_token :float, number.to_f, number_string, column: first_char_column
         else
-          add_token :integer, number.to_i, number_string
+          add_token :integer, number.to_i, number_string, column: first_char_column
         end
       end
 
       def handle_string
         string = current_char
+        first_char_column = @column
         @column += 1
         @cursor += 1
 
@@ -129,7 +131,7 @@ module Simplec
         @column += 1
         @cursor += 1
 
-        add_token :string, string[1...-1], string
+        add_token :string, string[1...-1], string, column: first_char_column
       end
 
       def handle_punctuation
@@ -162,6 +164,8 @@ module Simplec
 
       def handle_line_comment
         comment = ''
+        first_char_column = @column - 2
+
         until current_char == "\n"
           comment += current_char
           @column += 1
@@ -171,11 +175,12 @@ module Simplec
         @cursor += 1
         @line += 1
 
-        add_token :line_comment, comment, "//#{comment}"
+        add_token :line_comment, comment, "//#{comment}", column: first_char_column
       end
 
       def handle_block_comment
         comment = ''
+        first_char_column = @column - 2
         until chars_next_to_another? '}', '/'
           comment += current_char
           @column += 1
@@ -189,7 +194,7 @@ module Simplec
         @column += 2
         @cursor += 2
 
-        add_token :block_comment, comment, "/{#{comment}}/"
+        add_token :block_comment, comment, "/{#{comment}}/", column: first_char_column
       end
 
       private
@@ -210,8 +215,8 @@ module Simplec
         previous_char_was?(previous) and current_char == current
       end
 
-      def add_token(type, value, source_code = value)
-        @tokens << Token.new(@tokens.length, @file, @line, @column, type, value, source_code)
+      def add_token(type, value, source_code = value, column: @column)
+        @tokens << Token.new(@tokens.length, @file, @line, column, type, value, source_code)
       end
     end
   end
