@@ -3,7 +3,8 @@
 module Simplec
   module AST
     class Call < Node
-      attr_reader :identifier, :definition, :arguments
+      attr_reader :identifier, :arguments
+      attr_accessor :definition
 
       def initialize(id, file, line, column, identifier, definition = nil, arguments = [])
         super(id, file, line, column)
@@ -16,10 +17,14 @@ module Simplec
         hash = super
         hash[node_type].merge!(
           identifier: @identifier,
-          definition: @definition,
+          definition: (@definition&.is_a?(Node) ? @definition.id : @definition),
           arguments: @arguments.map(&:to_h)
         )
         hash
+      end
+
+      def children
+        @arguments
       end
     end
   end

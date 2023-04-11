@@ -17,6 +17,10 @@ module Simplec
       def node_type
         self.class.name.split('::').last.downcase.gsub /( )/, '_'
       end
+
+      def children
+        []
+      end
     end
   end
 end

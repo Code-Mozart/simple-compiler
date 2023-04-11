@@ -5,6 +5,7 @@ module Simplec
     class Parser
       def initialize
         @node_count = 0
+        @symbol_tables_count = 0
       end
 
       def refresh_parameters; end
@@ -18,6 +19,8 @@ module Simplec
 
       def parse
         ast_root = AST::Block.new 0, @file, 0, 0
+        ast_root.symbol_table = AST::SymbolTable.new @symbol_tables_count, ast_root
+        @symbol_tables_count = 1
         @node_count = 1
 
         @cursor = 0

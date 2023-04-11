@@ -17,6 +17,7 @@ module Simplec
         output_file = File.new @output_file_path
         output_file.content = Helpers.stringify_keys(tokens.map(&:to_h)).to_yaml
         output_file.write
+        tokens
       end
     end
   end

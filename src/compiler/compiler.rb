@@ -22,14 +22,14 @@ module Simplec
       @pipeline << Simplec::Compiler::Lexer.new
       if @target == :tokens or @output_tokens
         @pipeline << Simplec::Backends::TokenFormatter.new
-        return
+        return if @target == :tokens
       end
 
       @pipeline << Simplec::Compiler::Parser.new
       @pipeline << Simplec::Compiler::Solver.new
       if @target == :ast or @output_ast
         @pipeline << Simplec::Backends::ASTFormatter.new
-        return
+        return if @target == :ast
       end
 
       case @target

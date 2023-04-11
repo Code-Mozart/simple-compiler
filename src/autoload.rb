@@ -26,6 +26,7 @@ module Simplec
 
   module AST
     autoload :Node, "#{Simplec.root}/src/ast/node"
+    autoload :SymbolTable, "#{Simplec.root}/src/ast/symbol_table"
     autoload :Block, "#{Simplec.root}/src/ast/block"
     autoload :Call, "#{Simplec.root}/src/ast/call"
     autoload :String, "#{Simplec.root}/src/ast/string"

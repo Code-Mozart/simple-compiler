@@ -1,0 +1,14 @@
+TEXT
+    ; 'example1.sc':1:1 # say(...)
+    push msg
+    system_call simplec/system/stdout
+    pop msg
+
+    ; implicit exit at 'example1.sc':1:1
+    push 0
+    system_call simplec/system/exit
+
+DATA
+msg:
+    ; 'example1.sc':1:6 # "Hello simplec"
+    define_byte 'Hello simplec\n'
