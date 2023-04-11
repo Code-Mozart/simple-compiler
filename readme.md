@@ -37,7 +37,7 @@ my_function(42)
 int_divide : (float dividend, float divisor) -> int quotient, int remainder {
     return dividend.int / divisor.int, dividend.int % divisor.int
 }
-quotient, remainder = int_divide(10.0, 3.0)
+quotient, remainder : int_divide(10.0, 3.0)
 
 // alternatively return local variables
 int_divide : (float dividend, float divisor) -> int quotient, int remainder {
@@ -53,7 +53,7 @@ with_argument : (int a) -> int { a + 42 }
 some_function : (int a) -> { a + 42 }
 
 // If statement
-if (quotient - remainder > 0 and quotient.positive?) {
+if (quotient - remainder > 0 and quotient.positive? or remainder = 0) {
     ...
 } else {
     ...
@@ -94,6 +94,19 @@ vector4 my_4d_vector
 matrix2 my_2x2_matrix
 matrix3 my_3x3_matrix
 matrix4 my_4x4_matrix
+
+// Operators
+vec1 : [1 2]
+vec2 : [3 4]
+dot : vec1 dot vec2
+
+mat : [[1 2]
+       [3 4]]
+mat *: [[5 6] [7 8]]
+
+
+// operators are just built-in functions and
+// most of the operator characters are simply identifiers
 ```
 
 To be a bit more precise about the language:
