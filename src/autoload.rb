@@ -36,7 +36,7 @@ module Simplec
     autoload :TokenFormatter, "#{Simplec.root}/src/backends/token_formatter"
     autoload :ASTFormatter, "#{Simplec.root}/src/backends/ast_formatter"
     autoload :VMCodeGenerator, "#{Simplec.root}/src/backends/vmcode_generator"
-    autoload :CCodeGenerator, "#{Simplec.root}/src/backends/ccode_generator"
+    autoload :CCodeGenerator, "#{Simplec.root}/src/backends/c_code_generator"
   end
 
   autoload :Helpers, "#{Simplec.root}/src/helpers"

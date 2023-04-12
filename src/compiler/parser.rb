@@ -47,15 +47,19 @@ module Simplec
         case current_token.type
         when :identifier
           # TODO: parse operator
+          raise NotImplementedError
         when :open_parenthesis
           parse_call
         when :semicolon
           # TODO: flush the current expression if possible or raise a compiler error
+          raise NotImplementedError
         when :comma
           if parse_tuples
             # TODO: handle implicit tuple notation
+            raise NotImplementedError
           else
             # TODO: flush the current expression if possible or raise a compiler error
+            raise NotImplementedError
           end
         else
           raise CompilationError.new :unexpected_token, @file, current_token.line, current_token.column, current_token
