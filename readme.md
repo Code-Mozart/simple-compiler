@@ -122,7 +122,11 @@ It is currently planned to be an **imperative/procedural/functional** programmin
 
 ## About the project and its current state
 
-This project is currently in a very early stage. It is not usable yet. It will be developed mostly for fun and to learn more about compilers and programming languages and may be canceled at any time.
+This project is currently in an early stage. It supports only transpiling a simple call instruction from SCL to C. However it already goes through the whole compiler pipeline.
+
+Documentation can be found in the `./doc` directory.
+
+It will be developed mostly for fun and to learn more about compilers and programming languages and may be canceled at any time.
 
 ## License
 
