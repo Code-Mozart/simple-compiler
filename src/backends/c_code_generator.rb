@@ -5,21 +5,21 @@ require 'set'
 module Simplec
   module Backends
     class CCodeGenerator
+      include Simplec::Backends::FileOutput
+      default_output_format :c
+
+      INDENTATION_SPACES = 4
+
       def initialize
         @emitted_tokens = []
         @static_data = []
         @includes = {}
       end
 
-      def refresh_parameters
-        @output_format = :c
-        @output_file_path = "#{Simplec.root}/#{@file.filename}.#{@output_format}"
-      end
-
       def run(ast_root)
         generate_root_tokens ast_root
 
-        output_file = File.new @output_file_path
+        output_file = File.new output_file_path
         output_file.content = generate_code
         output_file.write
         ast_root
@@ -172,7 +172,7 @@ module Simplec
       end
 
       def write(code, string, indentation)
-        code << '  ' * indentation if code[-1] == "\n"
+        code << ' ' * INDENTATION_SPACES * indentation if code[-1] == "\n"
         code << string
       end
 

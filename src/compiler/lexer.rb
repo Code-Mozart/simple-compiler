@@ -7,12 +7,14 @@ module Simplec
         @tokens = []
       end
 
-      def refresh_parameters; end
-
       def run(source_code)
         @source_code = source_code
         tokenize
         @tokens
+      end
+
+      def source_file=(file)
+        @file = file
       end
 
       private

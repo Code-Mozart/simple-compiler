@@ -5,12 +5,11 @@ require 'yaml'
 module Simplec
   module Backends
     class TokenFormatter
-      def initialize
-      end
+      include Simplec::Backends::FileOutput
+      default_output_format :yml
+      default_output_suffix 'tokens'
 
-      def refresh_parameters
-        @output_format = :yml
-        @output_file_path = "#{Simplec.root}/#{@file.filename}.tokens.#{@output_format}"
+      def initialize
       end
 
       def run(tokens)

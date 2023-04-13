@@ -5,8 +5,6 @@ module Simplec
     class Solver
       def initialize; end
 
-      def refresh_parameters; end
-
       def run(ast_root)
         ast_root.symbol_table.parent = external_symbols_table
         solve ast_root, ast_root.symbol_table

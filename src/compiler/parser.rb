@@ -8,11 +8,13 @@ module Simplec
         @symbol_tables_count = 0
       end
 
-      def refresh_parameters; end
-
       def run(tokens)
         @tokens = tokens
         parse
+      end
+
+      def source_file=(file)
+        @file = file
       end
 
       private

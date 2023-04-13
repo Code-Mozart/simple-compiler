@@ -7,6 +7,7 @@ module Simplec
       @target = target
       @output_tokens = options[:output_tokens]
       @output_ast = options[:output_ast]
+      @output_path_base = build_output_path(file, options[:output_directory], options[:output_name])
     end
 
     def compile
@@ -17,7 +18,7 @@ module Simplec
     private
 
     def create_pipeline
-      @pipeline = Simplec::Compiler::Pipeline.new(@file)
+      @pipeline = Simplec::Compiler::Pipeline.new(@file, @output_path_base)
 
       @pipeline << Simplec::Compiler::Lexer.new
       if @target == :tokens or @output_tokens
@@ -38,6 +39,12 @@ module Simplec
       when :c
         @pipeline << Simplec::Backends::CCodeGenerator.new
       end
+    end
+
+    def build_output_path(file, output_directory, output_name)
+      dir = output_directory || file.directory
+      name = output_name || file.filename
+      "#{dir}/#{name}"
     end
   end
 end

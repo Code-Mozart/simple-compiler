@@ -15,6 +15,10 @@ module Simplec
       ::File.basename @path, '.*'
     end
 
+    def directory
+      ::File.dirname @path
+    end
+
     def content
       @content ||= ::File.read @path
     end

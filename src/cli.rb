@@ -12,6 +12,8 @@ module Simplec
            desc: 'The target representation to compile to'
     option :output_tokens, type: :boolean, default: false, desc: 'Output the tokens'
     option :output_ast, type: :boolean, default: false, desc: 'Output the tokens'
+    option :output_directory, type: :string, default: nil, desc: 'The directory to output the generated files to'
+    option :output_name, type: :string, default: nil, desc: 'The filename to output the generated files to'
 
     def compile(file_arg)
       validate_options_for_compile
@@ -19,7 +21,9 @@ module Simplec
       if file_arg.nil? || file_arg.empty?
         say 'Please provide a file to compile', :red
       else
-        src_file = Simplec::FileHandler.find file_arg
+        src_file = Simplec::FileHandler.find_file file_arg
+        output_dir = options[:output_directory] and
+          Simplec::FileHandler.find_directory(options[:output_directory])
 
         say "Compiling file #{src_file} to #{options[:target]}", :blue
         say "Source code:", :blue
@@ -29,7 +33,9 @@ module Simplec
           file: src_file,
           target: options[:target].to_sym,
           output_tokens: options[:output_tokens],
-          output_ast: options[:output_ast]
+          output_ast: options[:output_ast],
+          output_directory: output_dir,
+          output_name: options[:output_name]
         ).compile
       end
     end
