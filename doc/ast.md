@@ -48,6 +48,7 @@ symbol:
 integer:
   ...
   type: string, always 'int32'
+  type_definition: string, always 'extern'
   value: integer, the integer value of this literal
 ```
 
@@ -57,6 +58,7 @@ integer:
 string:
   ...
   type: string, always 'string' (not yet implemented)
+  type_definition: string, always 'extern' (not yet implemented)
   value: string, the string value of this literal
 ```
 
