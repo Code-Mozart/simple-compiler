@@ -1,119 +1,73 @@
 # Simplec - AST Documentation
 
-The abstract syntax tree is expressed as an object hierarchy with nested objects and can be exported to YAML and JSON.
+The abstract syntax tree is expressed as an object hierarchy with nested objects and can be exported to YAML
+and JSON (not yet supported).
 
 This documentation contains the schemas of all nodes in the abstract syntax tree.
 
 ## General
 
+All nodes have the following properties:
+
+```yaml
+id: integer, a unique identifier for this node
+file: string, the absolute file path of the source file
+line: integer, the line number of the first character of this node
+column: integer, the column number of the first character of this node
+```
+
 ### Block node
+
 ```yaml
 block:
-    id: integer
-    file: string
-    line: integer
-    column: integer
-    parameters: array
-    body: array containing the expression statements in order
-    symbols: array of symbols
+  ...
+  parameters: array, a list of variable nodes (currently always empty)
+  body: array, contains the expression statements in order
+  symbols: array, the symbols defined in this block (not yet implemented)
 ```
 
-_Example:_
-```yaml
-block:
-    id: 1
-    file: 'source_file.sc'
-    line: 1
-    column: 1
-    parameters:
-        - ...
-    body:
-        - ...
-    symbols:
-        - ...
-```
+The block node contains multiple expression statements. It is used for function bodies, if statements, etc.
+and also is the root node of every abstract syntax tree. Its value is the last expression in the array.
 
-The block node contains multiple expression statements. It is used for function bodies, if statements, etc. and is the root node of every abstract syntax tree. Its value is the last expression in the array.
+### Symbol node _(not yet implemented)_
 
-Category: `/block`
-
-### Symbol node
 ```yaml
 symbol:
-    id: integer
-    file: string
-    line: integer
-    column: integer
-    identifier: string
-    type: string
-    definition: block or literal
+  ...
+  identifier: string, the name identifying this symbol
+  type: string, the type of this symbol
+  type_definition: null, integer or string, null if the type is unresolved, the id of the type or the tag 'extern' to indicate that the type is defined somewhere else
+  definition: object, a block node for functions or a literal node for global variables
 ```
-
-_Example:_
-```yaml
-symbol:
-    id: 1
-    file: 'source_file.sc'
-    line: 1
-    column: 1
-    identifier: 'main'
-    definition:
-        ...
-```
-
-Category: `/symbol`
 
 ## Literals
 
-### Integer literal node
+### Integer literal node _(not yet implemented)_
+
 ```yaml
 integer:
-    id: integer
-    file: string
-    line: integer
-    column: integer
-    type: always 'int32'
-    value: integer
+  ...
+  type: string, always 'int32'
+  value: integer, the integer value of this literal
 ```
 
-_Example:_
+### String literal node
+
 ```yaml
-integer:
-    id: 1
-    file: 'source_file.sc'
-    line: 1
-    column: 1
-    type: 'int32'
-    value: 42
+string:
+  ...
+  type: string, always 'string' (not yet implemented)
+  value: string, the string value of this literal
 ```
-
-Category: `/literals/integer`
 
 ## Calls
 
 ### Call node
+
 ```yaml
 call:
-    id: integer
-    file: string
-    line: integer
-    column: integer
-    identifier: string
-    symbol: null, extern or id
-    arguments: array
+  ...
+  identifier: string
+  definition: null, integer or string, null if the symbol is unresolved, the id of the symbol or the tag 'extern' to indicate that the symbol is defined somewhere else
+  arguments: array
 ```
-
-_Example:_
-```yaml
-call:
-    id: 1
-    file: 'source_file.sc'
-    line: 1
-    column: 1
-    identifier: 'my_function'
-    symbol: 4
-    arguments:
-        - ...
-```
-
-Category: `/call`
