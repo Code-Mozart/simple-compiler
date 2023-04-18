@@ -112,20 +112,20 @@ module Simplec
 
       def generate_code
         code = String.new
-        generate_includes code
-        generate_static_data code
-        generate_emitted_tokens code
+        generate_includes_code code
+        generate_static_data_code code
+        generate_emitted_tokens_code code
         code
       end
 
-      def generate_includes(code)
+      def generate_includes_code(code)
         @includes.each do |name, identifiers|
           code << "// implicit include for Simplec symbol #{identifiers.join(', ')}\n"
           code << "#include <#{name}>\n\n"
         end
       end
 
-      def generate_static_data(code)
+      def generate_static_data_code(code)
         @static_data.each_with_index do |variable, index|
           variable.variable_name = "#{type_to_variable_name variable.type}_#{index}"
           code << "// #{variable.comment}\n" if variable.comment
@@ -133,7 +133,7 @@ module Simplec
         end
       end
 
-      def generate_emitted_tokens(code)
+      def generate_emitted_tokens_code(code)
         indentation = 0
         @emitted_tokens.each do |token|
           write code, "// #{token.comment}\n", indentation if token.comment
